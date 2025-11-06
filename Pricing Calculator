@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Instant Event Quote — Photo • Video • Photo Booth</title>
+  <style>
+    :root{--ink:#0a0a0a;--muted:#777;--line:#e9e9ee;--bg:#ffffff;--accent:#000000}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+    .wrap{max-width:1000px;margin:32px auto;padding:0 20px}
+    h1{font-weight:700;letter-spacing:.2px;margin:0 0 8px;font-size:clamp(22px,3.4vw,34px)}
+    p.lead{margin:0 0 24px;color:var(--muted)}
+    .card{border:1px solid var(--line);border-radius:16px;padding:18px}
+    .grid{display:grid;gap:16px}
+    @media(min-width:900px){.grid{grid-template-columns:1.2fr 1fr}}
+    label{display:block;font-size:12px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+    select,input[type="number"],input[type="text"],.selectlike{width:100%;padding:12px 12px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--ink)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{border:1px solid var(--line);padding:10px 12px;border-radius:999px;cursor:pointer;user-select:none}
+    .chip.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+    .muted{color:var(--muted)}
+    .hr{height:1px;background:var(--line);margin:14px 0}
+    .list{display:grid;gap:6px}
+    .item{display:flex;justify-content:space-between;align-items:center}
+    .total-row{display:flex;justify-content:space-between;align-items:center}
+    .total{font-size:28px;font-weight:800}
+    .btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:12px 16px;font-weight:600;cursor:pointer}
+    .btn.secondary{background:#f5f5f7;color:#111;border:1px solid var(--line)}
+    .mini{font-size:12px;color:var(--muted)}
+    .flex{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .pill{border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:12px;color:#111;background:#fafafa}
+    .hide{display:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Instant Event Quote — Photo • Video • Photo Booth</h1>
+    <p class="lead">Transparent pricing from a husband–wife team. Choose hours, bundle, and add‑ons. <span class="muted">(Default Illinois tax 6.25% — editable.)</span></p>
+
+    <div class="card grid">
+      <!-- LEFT: Controls -->
+      <div>
+        <div class="row">
+          <div>
+            <label>Service</label>
+            <div class="chips" id="service">
+              <div class="chip active" data-type="photo">Photo Only</div>
+              <div class="chip" data-type="video">Video Only</div>
+              <div class="chip" data-type="bundle">Photo + Video</div>
+            </div>
+          </div>
+          <div>
+            <label>Coverage Hours</label>
+            <select id="hours"></select>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="row">
+          <div>
+            <label>Photo Booth</label>
+            <div class="chips" id="booth">
+              <div class="chip" data-on="0">No Booth</div>
+              <div class="chip active" data-on="1">3 hrs (+$575)</div>
+            </div>
+          </div>
+          <div>
+            <label>Extra Booth Hours</label>
+            <input id="boothExtra" type="number" min="0" value="0" />
+            <div class="mini">$175 / extra hour</div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:12px">
+          <div>
+            <label>Extra Coverage Hours</label>
+            <input id="extraHours" type="number" min="0" value="0" />
+            <div class="mini">$175/hr per service</div>
+          </div>
+          <div>
+            <label>Sales Tax (%)</label>
+            <input id="tax" type="number" min="0" step="0.01" value="6.25" />
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="row">
+          <div id="engWrap">
+            <label>Engagement Session</label>
+            <div class="selectlike" id="engText">Included at 8+ hours (Photo/Bundle)</div>
+            <div class="mini" id="engNote">Add for $250 on 4–6 hr Photo/Bundle</div>
+          </div>
+          <div>
+            <label>Add‑ons</label>
+            <div class="flex">
+              <label class="pill"><input id="addSecondPhoto" type="checkbox" /> Second Photographer (+$450)</label>
+              <label class="pill"><input id="addSecondVideo" type="checkbox" /> Second Videographer (+$550)</label>
+              <label class="pill"><input id="addRush" type="checkbox" /> Expedited Delivery (+$400)</label>
+            </div>
+            <div class="mini">Drone footage included with all Video/Bundle (where permitted).</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Summary -->
+      <div>
+        <label>Itemized Quote</label>
+        <div class="card" style="padding:14px">
+          <div id="items" class="list"></div>
+          <div class="hr"></div>
+          <div class="item"><span class="muted">Subtotal</span><span id="subtotal">$0</span></div>
+          <div class="item"><span class="muted">Tax</span><span id="taxAmt">$0</span></div>
+          <div class="total-row"><div class="muted">Estimated Total</div><div id="total" class="total">$0</div></div>
+          <div class="hr"></div>
+          <button class="btn" id="copyQuote">Copy Quote Text</button>
+          <button class="btn secondary" id="copyEmbed" title="Copy iframe for Pixieset">Copy iFrame Embed</button>
+          <div class="mini" style="margin-top:8px">Paste the iframe into a Pixieset <em>Embed</em> block. Replace the <code>src</code> with your hosted URL if needed.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- CONFIG ---
+    const CFG = {
+      currency: '$',
+      hours: [4,6,8,10,12],
+      prices: {
+        photo: {4:1450,6:1950,8:2450,10:2950,12:3400},
+        video: {4:1550,6:2050,8:2550,10:3050,12:3500},
+        bundle:{4:2650,6:3450,8:4350,10:5250,12:6150}
+      },
+      extras: {
+        extraHourPerService: 175,
+        booth3hr: 575,
+        boothExtraHr: 175,
+        engagementAddOn: 250,
+        secondPhoto: 450,
+        secondVideo: 550,
+        rush: 400
+      }
+    };
+
+    // --- STATE ---
+    const state = {
+      type: 'photo',
+      hours: CFG.hours[0],
+      booth: true,
+      boothExtra: 0,
+      extraHours: 0,
+      tax: 6.25,
+      addSecondPhoto: false,
+      addSecondVideo: false,
+      addRush: false
+    };
+
+    const $ = sel => document.querySelector(sel);
+    const fmt = n => CFG.currency + n.toLocaleString();
+
+    // Init hours select
+    const hoursSel = $('#hours');
+    CFG.hours.forEach(h=>{ const o=document.createElement('option'); o.value=h; o.textContent=`${h} hours`; hoursSel.appendChild(o); });
+
+    // Service chips
+    $('#service').addEventListener('click', e=>{
+      const chip = e.target.closest('.chip'); if(!chip) return;
+      [...e.currentTarget.children].forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      state.type = chip.dataset.type; adjustAddOnVisibility(); render();
+    });
+
+    // Hours
+    hoursSel.addEventListener('change', e=>{ state.hours = Number(e.target.value); adjustAddOnVisibility(); render(); });
+
+    // Booth
+    $('#booth').addEventListener('click', e=>{
+      const chip = e.target.closest('.chip'); if(!chip) return;
+      [...e.currentTarget.children].forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      state.booth = chip.dataset.on==='1'; render();
+    });
+
+    $('#boothExtra').addEventListener('input', e=>{ state.boothExtra = Math.max(0, Number(e.target.value||0)); render(); });
+    $('#extraHours').addEventListener('input', e=>{ state.extraHours = Math.max(0, Number(e.target.value||0)); render(); });
+    $('#tax').addEventListener('input', e=>{ state.tax = Math.max(0, Number(e.target.value||0)); render(); });
+
+    // Add-ons
+    $('#addSecondPhoto').addEventListener('change', e=>{ state.addSecondPhoto = e.target.checked; render(); });
+    $('#addSecondVideo').addEventListener('change', e=>{ state.addSecondVideo = e.target.checked; render(); });
+    $('#addRush').addEventListener('change', e=>{ state.addRush = e.target.checked; render(); });
+
+    function adjustAddOnVisibility(){
+      // Engagement logic text
+      const engIncludable = (state.type==='photo' || state.type==='bundle');
+      const engIncluded = engIncludable && state.hours>=8;
+      $('#engText').textContent = engIncluded ? 'Included at this package' : (engIncludable ? 'Available as $250 add‑on' : 'Not applicable for Video‑only');
+      $('#engNote').textContent = engIncludable ? 'Included for 8/10/12 hr; add‑on for 4/6 hr.' : '';
+
+      // Second shooters visibility
+      const showSecondPhoto = (state.type==='photo' || state.type==='bundle');
+      const showSecondVideo = (state.type==='video' || state.type==='bundle');
+      $('#addSecondPhoto').closest('label').style.display = showSecondPhoto ? '' : 'none';
+      $('#addSecondVideo').closest('label').style.display = showSecondVideo ? '' : 'none';
+    }
+
+    function render(){
+      const items = [];
+      // Base
+      const base = CFG.prices[state.type][state.hours];
+      const serviceTitle = state.type==='bundle' ? 'Photo + Video' : (state.type==='photo'?'Photo':'Video');
+      items.push([`${serviceTitle} — ${state.hours} hrs`, base]);
+
+      // Engagement add or include
+      const engIncludable = (state.type==='photo' || state.type==='bundle');
+      if(engIncludable){
+        if(state.hours>=8){ items.push(['Engagement Session', 0, 'Included']); }
+        else { items.push([`Engagement Session (4–6 hr packages)`, CFG.extras.engagementAddOn]); }
+      }
+
+      // Extra coverage (per service)
+      const servicesCount = state.type==='bundle' ? 2 : 1;
+      const extraCov = state.extraHours * CFG.extras.extraHourPerService * servicesCount;
+      if(state.extraHours>0){ items.push([`Extra coverage — ${state.extraHours} hr × ${servicesCount} service(s)`, extraCov]); }
+
+      // Booth
+      if(state.booth){
+        items.push([`Photo Booth — 3 hrs`, CFG.extras.booth3hr]);
+        if(state.boothExtra>0) items.push([`Photo Booth extra — ${state.boothExtra} hr`, state.boothExtra*CFG.extras.boothExtraHr]);
+      }
+
+      // Second shooters
+      if(state.addSecondPhoto && (state.type==='photo' || state.type==='bundle')){
+        items.push(['Second Photographer', CFG.extras.secondPhoto]);
+      }
+      if(state.addSecondVideo && (state.type==='video' || state.type==='bundle')){
+        items.push(['Second Videographer', CFG.extras.secondVideo]);
+      }
+
+      // Rush
+      if(state.addRush){ items.push(['Expedited Delivery (3 weeks)', CFG.extras.rush]); }
+
+      // Subtotal / Tax / Total
+      const subtotal = items.reduce((a,[,v])=>a+v,0);
+      const taxAmt = +(subtotal * (state.tax/100)).toFixed(2);
+      const total = +(subtotal + taxAmt).toFixed(2);
+
+      // UI
+      $('#items').innerHTML = items.map(([t,v,tag])=>`<div class="item"><span>${t}${tag?` <span class="muted">(${tag})</span>`:''}</span><span>${fmt(v)}</span></div>`).join('');
+      $('#subtotal').textContent = fmt(subtotal);
+      $('#taxAmt').textContent = fmt(taxAmt);
+      $('#total').textContent = fmt(total);
+    }
+
+    // Copy helpers
+    function quoteText(){
+      const serviceTitle = state.type==='bundle' ? 'Photo + Video' : (state.type==='photo'?'Photo':'Video');
+      const parts = [];
+      parts.push(`${serviceTitle} — ${state.hours} hrs`);
+      // Engagement wording
+      if(state.type!=='video'){
+        parts.push(state.hours>=8?`Engagement Session: Included`:`Engagement Session: +$${CFG.extras.engagementAddOn}`);
+      }
+      if(state.extraHours>0){ const sc = state.type==='bundle'?2:1; parts.push(`Extra Coverage: ${state.extraHours} hr × ${sc} services`); }
+      if(state.booth){ parts.push(`Photo Booth: 3 hrs${state.boothExtra>0?` + ${state.boothExtra} extra hr`:''}`); }
+      if(state.addSecondPhoto && (state.type==='photo' || state.type==='bundle')) parts.push('Second Photographer');
+      if(state.addSecondVideo && (state.type==='video' || state.type==='bundle')) parts.push('Second Videographer');
+      if(state.addRush) parts.push('Expedited Delivery (3 weeks)');
+      const subtotal = $('#subtotal').textContent; const taxAmt = $('#taxAmt').textContent; const total = $('#total').textContent;
+      const droneNote = (state.type!=='photo')? 'Drone footage included (where permitted).\n' : '';
+      return `Estimate\n${parts.join('\n')}\nSubtotal: ${subtotal}\nTax: ${taxAmt}\nTotal: ${total}\n\n${droneNote}Notes: Extra coverage $${CFG.extras.extraHourPerService}/hr per service. IL tax default ${state.tax}%.`;
+    }
+
+    $('#copyQuote').addEventListener('click', async()=>{
+      try{ await navigator.clipboard.writeText(quoteText()); const b=$('#copyQuote'); const t=b.textContent; b.textContent='Copied!'; setTimeout(()=>b.textContent=t,1200);}catch(e){ alert('Copy failed'); }
+    });
+
+    $('#copyEmbed').addEventListener('click', async()=>{
+      const iframe = `<iframe src="YOUR_HOSTED_URL_HERE" style="width:100%;height:900px;border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allow="clipboard-write"></iframe>`;
+      try{ await navigator.clipboard.writeText(iframe); const b=$('#copyEmbed'); const t=b.textContent; b.textContent='iFrame Copied!'; setTimeout(()=>b.textContent=t,1200);}catch(e){ alert('Copy failed'); }
+    });
+
+    // Boot
+    adjustAddOnVisibility();
+    render();
+  </script>
+</body>
+</html>
