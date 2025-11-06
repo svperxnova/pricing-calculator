@@ -3,49 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Instant Event Quote — Photo • Video • Photo Booth</title>
+  <title>Instant Wedding Quote — Photo • Video • Photo Booth</title>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    :root{--ink:#111213;--muted:#6b7280;--line:#ececf1;--bg:#ffffff;--accent:#111213;--soft:#f6f7fb}
+    :root{--ink:#0e0f12;--muted:#7b8190;--line:#eef1f6;--bg:#ffffff;--accent:#111213;--soft:#f9fafc;--shadow:0 18px 50px rgba(16,17,19,.08)}
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Manrope',ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
     .wrap{max-width:1040px;margin:40px auto;padding:0 20px}
     h1{font-weight:800;letter-spacing:.2px;margin:0 0 10px;font-size:clamp(24px,3.2vw,36px)}
-    p.lead{margin:0 0 28px;color:var(--muted);font-weight:600}
-    .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 6px 20px rgba(17,17,19,.05)}
+    p.lead{margin:0 0 28px;color:var(--muted);font-weight:600;opacity:.9}
+    .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow);backdrop-filter:saturate(160%) blur(2px)}
     .grid{display:grid;gap:18px}
     @media(min-width:960px){.grid{grid-template-columns:1.15fr 1fr}}
     label{display:block;font-size:11px;letter-spacing:.35px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
-    select,input[type="number"],input[type="text"],.selectlike{width:100%;padding:12px 12px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink)}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
     .chips{display:flex;flex-wrap:wrap;gap:10px}
-    .chip{border:1px solid var(--line);padding:10px 14px;border-radius:999px;cursor:pointer;user-select:none;background:var(--soft);transition:.2s transform,.2s background,.2s color,.2s border-color}
+    .chip{border:1px solid var(--line);padding:10px 14px;border-radius:999px;cursor:pointer;user-select:none;background:var(--soft);transition:transform .12s ease, background .12s ease}
     .chip:hover{transform:translateY(-1px)}
     .chip.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 6px 14px rgba(0,0,0,.08)}
     .muted{color:var(--muted)}
-    .hr{height:1px;background:var(--line);margin:16px 0}
+    .hr{height:1px;background:var(--line);margin:18px 0}
     .list{display:grid;gap:8px}
     .item{display:flex;justify-content:space-between;align-items:center}
     .total-row{display:flex;justify-content:space-between;align-items:center}
-    .total{font-size:30px;font-weight:800}
-    .btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;border-radius:14px;padding:12px 16px;font-weight:700;cursor:pointer;box-shadow:0 8px 18px rgba(17,17,19,.08);transition:.15s transform}
-    .btn:hover{transform:translateY(-1px)}
+    .total{font-size:38px;font-weight:800;letter-spacing:.2px}
+    .btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;border-radius:16px;padding:13px 18px;font-weight:700;cursor:pointer;box-shadow:0 14px 28px rgba(17,17,19,.10);transition:transform .15s ease, box-shadow .2s ease, opacity .15s ease}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 20px 36px rgba(17,17,19,.12)}
     .btn.secondary{background:#fff;color:#111;border:1px solid var(--line);box-shadow:none}
     .mini{font-size:12px;color:var(--muted)}
     .flex{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
     .pill{border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-size:12px;color:#111;background:var(--soft)}
-
-    /* Slider */
-    .marks{display:flex;justify-content:space-between;gap:6px;font-size:12px;color:var(--muted);margin-top:6px}
-    input[type=range].slider{width:100%;appearance:none;height:6px;background:linear-gradient(90deg,#e9e9f2,#e9e9f2);border-radius:999px;outline:none}
-    input[type=range].slider::-webkit-slider-thumb{appearance:none;width:18px;height:18px;border-radius:50%;background:#fff;border:2px solid var(--accent);box-shadow:0 2px 6px rgba(0,0,0,.12);cursor:pointer}
-    input[type=range].slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:2px solid var(--accent);box-shadow:0 2px 6px rgba(0,0,0,.12);cursor:pointer}
-    input[type=range].slider:focus{outline:none}
+    .select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+    .marks{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);margin-top:8px}
+    .marks button{background:none;border:none;color:inherit;padding:0;cursor:pointer}
+    .marks button:focus{outline:2px solid #9aa0a6;outline-offset:2px;border-radius:4px}
+    .slider{width:100%;appearance:none;height:8px;background:linear-gradient(90deg,#f2f4fa,#f2f4fa);border-radius:999px;outline:none}
+    .slider::-webkit-slider-thumb{appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--accent);box-shadow:0 2px 8px rgba(0,0,0,.12);cursor:pointer;transition:box-shadow .15s ease, transform .1s ease}
+    .slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--accent);box-shadow:0 2px 8px rgba(0,0,0,.12);cursor:pointer;transition:box-shadow .15s ease, transform .1s ease}
+    [hidden]{display:none !important}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>Instant Event Quote — Photo • Video • Photo Booth</h1>
+    <h1>Instant Wedding Quote — Photo • Video • Photo Booth</h1>
     <p class="lead">Use the tool below to receive an instant quote.</p>
 
     <div class="card grid">
@@ -53,83 +53,67 @@
       <div>
         <div class="row">
           <div>
-            <label>Service</label>
-            <div class="chips" id="service">
-              <div class="chip active" data-type="photo">Photo Only</div>
-              <div class="chip" data-type="video">Video Only</div>
-              <div class="chip" data-type="bundle">Photo + Video</div>
+            <label id="serviceLabel">Service</label>
+            <div class="chips" id="service" role="tablist" aria-labelledby="serviceLabel">
+              <div class="chip active" data-type="photo" role="button" tabindex="0" aria-pressed="true" id="chipPhoto">Photo Only</div>
+              <div class="chip" data-type="video" role="button" tabindex="0" aria-pressed="false" id="chipVideo">Video Only</div>
+              <div class="chip" data-type="bundle" role="button" tabindex="0" aria-pressed="false" id="chipBundle">Photo + Video</div>
             </div>
           </div>
           <div>
-            <label>Coverage Hours</label>
-            <input id="hoursRange" type="range" min="0" max="4" step="1" value="0" class="slider" />
-            <div class="marks" id="hourMarks"></div>
-            <div class="mini">Selected: <span id="hoursLabel">4 hours</span></div>
+            <label for="hoursRange" id="hoursLabelHead">Coverage Hours</label>
+            <input id="hoursRange" type="range" min="0" max="4" step="1" value="0" class="slider" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0" aria-label="Coverage hours" />
+            <div class="marks" id="hourMarks" aria-hidden="false"></div>
+            <div class="mini"><span id="selectedLabel">Selected</span>: <span id="hoursLabel" aria-live="polite">8 hours</span></div>
           </div>
         </div>
 
         <div class="hr"></div>
 
-        <div class="row">
-          <div>
-            <label>Photo Booth</label>
-            <div class="chips" id="booth">
-              <div class="chip" data-on="0">No Booth</div>
-              <div class="chip active" data-on="1">3 hrs (+$575)</div>
-            </div>
+        <div>
+          <label id="boothLabel">Photo Booth</label>
+          <div class="chips" id="booth" role="group" aria-labelledby="boothLabel">
+            <div class="chip active" data-on="0" id="chipNoBooth">No Booth</div>
+            <div class="chip" data-on="1" id="chipBooth">Photo Booth — 3 hrs <span class="muted">(Most Popular)</span></div>
           </div>
-          <div>
-            <label>Extra Booth Hours</label>
-            <input id="boothExtra" type="number" min="0" value="0" />
-            <div class="mini">$175 / extra hour</div>
-          </div>
-        </div>
-
-        <div class="row" style="margin-top:12px">
-          <div>
-            <label>Extra Coverage Hours</label>
-            <input id="extraHours" type="number" min="0" value="0" />
-            <div class="mini">$175/hr per service</div>
-          </div>
-          <div>
-            <label>Sales Tax (%)</label>
-            <input id="tax" type="number" min="0" step="0.01" value="6.25" />
+          <div id="boothExtraWrap" style="margin-top:12px; display:none;">
+            <label for="boothExtraSelect" id="boothExtraHead">Extra Booth Hours</label>
+            <select id="boothExtraSelect" class="select" aria-label="Extra booth hours">
+              <option value="0">0 hours</option>
+              <option value="1">1 hour (+$175)</option>
+              <option value="2">2 hours (+$350)</option>
+            </select>
+            <div class="mini" id="boothExtraNote">Choose up to 2 extra hours at $175/hr.</div>
           </div>
         </div>
 
         <div class="hr"></div>
 
-        <div class="row">
-          <div id="engWrap">
-            <label>Engagement Session</label>
-            <div class="selectlike" id="engText">Included for Photo & Bundle</div>
-            <div class="mini" id="engNote">Not applicable for Video-only</div>
+        <div>
+          <label id="addonsHead">Add-ons</label>
+          <div class="flex">
+            <label class="pill" id="pillSecondPhoto"><input id="addSecondPhoto" type="checkbox" /> <span id="txtSecondPhoto">Second Photographer (+$450)</span></label>
+            <label class="pill" id="pillSecondVideo"><input id="addSecondVideo" type="checkbox" /> <span id="txtSecondVideo">Second Videographer (+$550)</span></label>
+            <label class="pill"><input id="addRush" type="checkbox" /> <span id="txtRush">Expedited Delivery (+$400)</span></label>
           </div>
-          <div>
-            <label>Add‑ons</label>
-            <div class="flex">
-              <label class="pill"><input id="addSecondPhoto" type="checkbox" /> Second Photographer (+$450)</label>
-              <label class="pill"><input id="addSecondVideo" type="checkbox" /> Second Videographer (+$550)</label>
-              <label class="pill"><input id="addRush" type="checkbox" /> Expedited Delivery (+$400)</label>
-            </div>
-            <div class="mini">Drone footage included with all Video/Bundle (where permitted).</div>
-          </div>
+          <div class="mini" id="droneNote">Drone footage included with all Video/Bundle (where permitted).</div>
         </div>
       </div>
 
       <!-- RIGHT: Summary -->
       <div>
-        <label>Itemized Quote</label>
+        <label id="itemizedHead">Itemized Quote</label>
         <div class="card" style="padding:14px">
           <div id="items" class="list"></div>
           <div class="hr"></div>
-          <div class="item"><span class="muted">Subtotal</span><span id="subtotal">$0</span></div>
-          <div class="item"><span class="muted">Tax</span><span id="taxAmt">$0</span></div>
-          <div class="total-row"><div class="muted">Estimated Total</div><div id="total" class="total">$0</div></div>
+          <div class="item"><span class="muted" id="lblSubtotal">Subtotal</span><span id="subtotal">$0</span></div>
+          <div class="item"><span class="muted" id="lblTax">Tax (6.25%)</span><span id="taxAmt">$0</span></div>
+          <div class="total-row"><div class="muted" id="lblTotal">Estimated Total</div><div id="total" class="total" aria-live="polite">$0</div></div>
+          <div class="mini" style="margin-top:4px;" id="taxFine">Illinois sales tax rate: 6.25% applied to all services and rentals.</div>
           <div class="hr"></div>
           <button class="btn" id="copyQuote">Copy Quote Text</button>
           <button class="btn secondary" id="copyEmbed" title="Copy iframe for Pixieset">Copy iFrame Embed</button>
-          <div class="mini" style="margin-top:8px">Paste the iframe into a Pixieset <em>Embed</em> block. Replace the <code>src</code> with your hosted URL if needed.</div>
+          <div class="mini" style="margin-top:8px" id="embedNote">Paste the iframe into a Pixieset <em>Embed</em> block. Replace the <code>src</code> with your hosted URL if needed.</div>
         </div>
       </div>
     </div>
@@ -140,16 +124,15 @@
     const CFG = {
       currency: '$',
       hours: [4,6,8,10,12],
+      // Photo Only: $325/hr | Video Only: $325/hr | Bundle (Photo+Video): $300/hr PER SERVICE
       prices: {
-        photo: {4:1450,6:1950,8:2450,10:2950,12:3400},
-        video: {4:1550,6:2050,8:2550,10:3050,12:3500},
-        bundle:{4:2650,6:3450,8:4350,10:5250,12:6150}
+        photo:  {4:1300,6:1950,8:2600,10:3250,12:3900},
+        video:  {4:1300,6:1950,8:2600,10:3250,12:3900},
+        bundle: {4:2400,6:3600,8:4800,10:6000,12:7200}
       },
       extras: {
-        extraHourPerService: 175,
         booth3hr: 575,
         boothExtraHr: 175,
-        engagementAddOn: 250,
         secondPhoto: 450,
         secondVideo: 550,
         rush: 400
@@ -159,99 +142,98 @@
     // --- STATE ---
     const state = {
       type: 'photo',
-      hours: CFG.hours[0],
-      booth: true,
+      hours: 8,
+      booth: false,
       boothExtra: 0,
-      extraHours: 0,
-      tax: 6.25,
+      tax: 6.25, // fixed 6.25%
       addSecondPhoto: false,
       addSecondVideo: false,
       addRush: false
     };
 
+    // --- Helpers ---
     const $ = sel => document.querySelector(sel);
-    const fmt = n => CFG.currency + n.toLocaleString();
+    const fmt = n => CFG.currency + Number(n||0).toLocaleString(undefined,{minimumFractionDigits:0, maximumFractionDigits:2});
+
+    // Accessible chip groups
+    function initChips(containerSel, onChoose){
+      const el = $(containerSel);
+      el.addEventListener('click', e=>{
+        const chip = e.target.closest('.chip'); if(!chip || !el.contains(chip)) return;
+        [...el.children].forEach(c=>{c.classList.remove('active'); c.setAttribute('aria-pressed','false');});
+        chip.classList.add('active'); chip.setAttribute('aria-pressed','true');
+        onChoose(chip);
+      });
+      el.addEventListener('keydown', e=>{
+        if(e.key==='Enter' || e.key===' '){
+          const chip = e.target.closest('.chip'); if(!chip || !el.contains(chip)) return;
+          e.preventDefault(); chip.click();
+        }
+      });
+    }
 
     // Service chips
-    $('#service').addEventListener('click', e=>{
-      const chip = e.target.closest('.chip'); if(!chip) return;
-      [...e.currentTarget.children].forEach(c=>c.classList.remove('active'));
-      chip.classList.add('active');
-      state.type = chip.dataset.type; adjustAddOnVisibility(); render();
-    });
-
+    initChips('#service', chip=>{ state.type = chip.dataset.type; adjustAddOnVisibility(); render(); });
     // Booth chips
-    $('#booth').addEventListener('click', e=>{
-      const chip = e.target.closest('.chip'); if(!chip) return;
-      [...e.currentTarget.children].forEach(c=>c.classList.remove('active'));
-      chip.classList.add('active');
-      state.booth = chip.dataset.on==='1'; render();
-    });
+    initChips('#booth', chip=>{ state.booth = chip.dataset.on==='1'; render(); });
 
-    // Init hours slider
+    // Sliders & selects
     const hoursRange = $('#hoursRange');
     const hoursLabel = $('#hoursLabel');
     const hourMarks = $('#hourMarks');
+    const boothExtraSelect = $('#boothExtraSelect');
+
     function initHours(){
       hoursRange.min = 0; hoursRange.max = CFG.hours.length-1; hoursRange.step = 1;
-      const idx = CFG.hours.indexOf(state.hours); hoursRange.value = idx>=0?idx:0;
-      hourMarks.innerHTML = CFG.hours.map(h=>`<span>${h}</span>`).join('');
+      const idx = Math.max(0, CFG.hours.indexOf(state.hours)); hoursRange.value = idx;
+      hourMarks.innerHTML = CFG.hours.map((h,i)=>`<button type="button" data-i="${i}" aria-label="Set ${h} hours">${h}</button>`).join('');
       hoursLabel.textContent = `${state.hours} hours`;
+      hourMarks.addEventListener('click', e=>{
+        const btn = e.target.closest('button[data-i]'); if(!btn) return;
+        const i = Number(btn.dataset.i)||0; hoursRange.value = i; hoursRange.dispatchEvent(new Event('input',{bubbles:true}));
+      });
     }
-    hoursRange.addEventListener('input', e=>{
-      const idx = Number(e.target.value);
-      state.hours = CFG.hours[idx];
+
+    hoursRange.addEventListener('input', e => {
+      const idx = Number(e.target.value)||0;
+      state.hours = CFG.hours[idx]||CFG.hours[0];
       hoursLabel.textContent = `${state.hours} hours`;
-      adjustAddOnVisibility(); render();
+      render();
     });
 
-    // Other inputs
-    $('#boothExtra').addEventListener('input', e=>{ state.boothExtra = Math.max(0, Number(e.target.value||0)); render(); });
-    $('#extraHours').addEventListener('input', e=>{ state.extraHours = Math.max(0, Number(e.target.value||0)); render(); });
-    $('#tax').addEventListener('input', e=>{
-      const raw = String(e.target.value ?? '');
-      const clean = raw.replace(/[^0-9.]/g,'');
-      const val = Math.max(0, parseFloat(clean) || 0);
-      state.tax = val;
-      // keep the input clean so users don't see % or letters sticking around
-      e.target.value = clean;
+    boothExtraSelect && boothExtraSelect.addEventListener('change', e=>{
+      state.boothExtra = Math.max(0, Math.min(2, Number(e.target.value||0)));
       render();
-    }); render(); });
+    });
 
-    // Add-ons
-    $('#addSecondPhoto').addEventListener('change', e=>{ state.addSecondPhoto = e.target.checked; render(); });
-    $('#addSecondVideo').addEventListener('change', e=>{ state.addSecondVideo = e.target.checked; render(); });
-    $('#addRush').addEventListener('change', e=>{ state.addRush = e.target.checked; render(); });
-
+    // Show/hide second shooter options based on service
     function adjustAddOnVisibility(){
-      // Engagement: always included for Photo & Bundle; not applicable for Video-only
-      const isPhotoOrBundle = (state.type==='photo' || state.type==='bundle');
-      $('#engText').textContent = isPhotoOrBundle ? 'Included for Photo & Bundle' : 'Not applicable for Video-only';
-      $('#engNote').textContent = isPhotoOrBundle ? '' : '';
-
-      // Second shooters visibility
       const showSecondPhoto = (state.type==='photo' || state.type==='bundle');
       const showSecondVideo = (state.type==='video' || state.type==='bundle');
-      $('#addSecondPhoto').closest('label').style.display = showSecondPhoto ? '' : 'none';
-      $('#addSecondVideo').closest('label').style.display = showSecondVideo ? '' : 'none';
+      $('#pillSecondPhoto').hidden = !showSecondPhoto;
+      $('#pillSecondVideo').hidden = !showSecondVideo;
+      if(!showSecondPhoto) { $('#addSecondPhoto').checked = false; }
+      if(!showSecondVideo) { $('#addSecondVideo').checked = false; }
     }
 
-    function render(){
-      const items = [];
-      // Base
-      const base = CFG.prices[state.type][state.hours];
-      const serviceTitle = state.type==='bundle' ? 'Photo + Video' : (state.type==='photo'?'Photo':'Video');
-      items.push([`${serviceTitle} — ${state.hours} hrs`, base]);
+    // Add-ons
+    $('#addSecondPhoto').addEventListener('change', ()=> render());
+    $('#addSecondVideo').addEventListener('change', ()=> render());
+    $('#addRush').addEventListener('change', ()=> render());
 
-      // Engagement (always included for Photo & Bundle)
-      if(state.type==='photo' || state.type==='bundle'){
-        items.push(['Engagement Session', 0, 'Included']);
+    function render(){
+      // Toggle booth extra visibility (single declaration)
+      const wrap = document.querySelector('#boothExtraWrap');
+      if (wrap){
+        wrap.style.display = state.booth ? '' : 'none';
+        if(!state.booth){ state.boothExtra = 0; if(boothExtraSelect){ boothExtraSelect.value = '0'; } }
       }
 
-      // Extra coverage (per service) (per service)
-      const servicesCount = state.type==='bundle' ? 2 : 1;
-      const extraCov = state.extraHours * CFG.extras.extraHourPerService * servicesCount;
-      if(state.extraHours>0){ items.push([`Extra coverage — ${state.extraHours} hr × ${servicesCount} service(s)`, extraCov]); }
+      const items = [];
+      // Base
+      const serviceTitle = state.type==='bundle' ? 'Photo + Video' : (state.type==='photo'?'Photo':'Video');
+      const base = CFG.prices[state.type][state.hours];
+      items.push([`${serviceTitle} — ${state.hours} hours`, base]);
 
       // Booth
       if(state.booth){
@@ -260,23 +242,23 @@
       }
 
       // Second shooters
-      if(state.addSecondPhoto && (state.type==='photo' || state.type==='bundle')){
+      if($('#addSecondPhoto').checked && (state.type==='photo' || state.type==='bundle')){
         items.push(['Second Photographer', CFG.extras.secondPhoto]);
       }
-      if(state.addSecondVideo && (state.type==='video' || state.type==='bundle')){
+      if($('#addSecondVideo').checked && (state.type==='video' || state.type==='bundle')){
         items.push(['Second Videographer', CFG.extras.secondVideo]);
       }
 
       // Rush
-      if(state.addRush){ items.push(['Expedited Delivery (3 weeks)', CFG.extras.rush]); }
+      if($('#addRush').checked){ items.push(['Expedited Delivery (3 weeks)', CFG.extras.rush]); }
 
       // Subtotal / Tax / Total
-      const subtotal = items.reduce((a,[,v])=>a+v,0);
+      const subtotal = items.reduce((a,[,v])=> a + (Number(v)||0), 0);
       const taxAmt = +(subtotal * (state.tax/100)).toFixed(2);
       const total = +(subtotal + taxAmt).toFixed(2);
 
       // UI
-      $('#items').innerHTML = items.map(([t,v,tag])=>`<div class="item"><span>${t}${tag?` <span class="muted">(${tag})</span>`:''}</span><span>${fmt(v)}</span></div>`).join('');
+      $('#items').innerHTML = items.map(([tX,v,tag])=>`<div class="item"><span>${tX}${tag?` <span class=\"muted\">(${tag})</span>`:''}</span><span>${fmt(v)}</span></div>`).join('');
       $('#subtotal').textContent = fmt(subtotal);
       $('#taxAmt').textContent = fmt(taxAmt);
       $('#total').textContent = fmt(total);
@@ -284,21 +266,18 @@
 
     // Copy helpers
     function quoteText(){
-      const serviceTitle = state.type==='bundle' ? 'Photo + Video' : (state.type==='photo'?'Photo':'Video');
       const parts = [];
-      parts.push(`${serviceTitle} — ${state.hours} hrs`);
-      // Engagement wording
-      if(state.type!=='video'){
-        parts.push('Engagement Session: Included');
-      }
-      if(state.extraHours>0){ const sc = state.type==='bundle'?2:1; parts.push(`Extra Coverage: ${state.extraHours} hr × ${sc} services`); }
+      const serviceTitle = state.type==='bundle' ? 'Photo + Video' : (state.type==='photo'?'Photo':'Video');
+      parts.push(`Estimate`);
+      parts.push(`${serviceTitle} — ${state.hours} hours`);
       if(state.booth){ parts.push(`Photo Booth: 3 hrs${state.boothExtra>0?` + ${state.boothExtra} extra hr`:''}`); }
-      if(state.addSecondPhoto && (state.type==='photo' || state.type==='bundle')) parts.push('Second Photographer');
-      if(state.addSecondVideo && (state.type==='video' || state.type==='bundle')) parts.push('Second Videographer');
-      if(state.addRush) parts.push('Expedited Delivery (3 weeks)');
+      if($('#addSecondPhoto').checked && (state.type==='photo' || state.type==='bundle')) parts.push('Second Photographer');
+      if($('#addSecondVideo').checked && (state.type==='video' || state.type==='bundle')) parts.push('Second Videographer');
+      if($('#addRush').checked) parts.push('Expedited Delivery (3 weeks)');
       const subtotal = $('#subtotal').textContent; const taxAmt = $('#taxAmt').textContent; const total = $('#total').textContent;
       const droneNote = (state.type!=='photo')? 'Drone footage included (where permitted).\n' : '';
-      return `Estimate\n${parts.join('\n')}\nSubtotal: ${subtotal}\nTax: ${taxAmt}\nTotal: ${total}\n\n${droneNote}Notes: Extra coverage $${CFG.extras.extraHourPerService}/hr per service. IL tax default ${state.tax}%.`;
+      const taxLine = 'Tax (6.25%): ' + taxAmt;
+      return `${parts.join('\n')}\nSubtotal: ${subtotal}\n${taxLine}\nTotal: ${total}\n\n${droneNote}`;
     }
 
     $('#copyQuote').addEventListener('click', async()=>{
@@ -306,56 +285,81 @@
     });
 
     $('#copyEmbed').addEventListener('click', async()=>{
-      const iframe = `<iframe src="YOUR_HOSTED_URL_HERE" style="width:100%;height:900px;border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allow="clipboard-write"></iframe>`;
+      const iframe = '<iframe src="YOUR_HOSTED_URL_HERE" style="width:100%;height:900px;border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allow="clipboard-write"></iframe>';
       try{ await navigator.clipboard.writeText(iframe); const b=$('#copyEmbed'); const t=b.textContent; b.textContent='iFrame Copied!'; setTimeout(()=>b.textContent=t,1200);}catch(e){ alert('Copy failed'); }
     });
 
     // ---- Boot ----
-    initHours();
-    adjustAddOnVisibility();
-    render();
+    function boot(){
+      const r = document.querySelector('#hoursRange');
+      const idx8 = CFG.hours.indexOf(8);
+      if (r && idx8 >= 0) { r.value = idx8; }
+      state.hours = 8;
+      state.booth = false;
+      state.boothExtra = 0;
+      state.tax = 6.25;
+      const wrap = document.querySelector('#boothExtraWrap');
+      if (wrap) wrap.style.display = 'none';
+      initHours();
+      adjustAddOnVisibility();
+      render();
+    }
+    boot();
 
-    // --- Minimal console tests (non-intrusive) ---
+    // --- Console smoke tests ---
     function runTests(){
       try{
-        // Test 1: Photo 4hr + booth should equal 1450 + 575 before tax
-        state.type='photo'; state.hours=4; state.booth=true; state.boothExtra=0; state.extraHours=0; state.tax=0; state.addSecondPhoto=false; state.addSecondVideo=false; state.addRush=false;
-        render();
-        const sub1 = +$('#subtotal').textContent.replace(/[$,]/g,'');
-        console.assert(sub1===2025, 'Test1 failed: expected 2025, got '+sub1);
+        const snap = { ...state };
+        const chk = {
+          sp: $('#addSecondPhoto').checked,
+          sv: $('#addSecondVideo').checked,
+          r:  $('#addRush').checked,
+        };
 
-        // Test 2: Bundle 8hr (engagement included) no booth: 4350 before tax
-        state.type='bundle'; state.hours=8; state.booth=false; state.extraHours=0; state.tax=0;
-        render();
-        const sub2 = +$('#subtotal').textContent.replace(/[$,]/g,'');
-        console.assert(sub2===4350, 'Test2 failed: expected 4350, got '+sub2);
+        // Test 1: Photo 4hr + booth should equal 1300 + 575 before tax = 1875
+        state.type='photo'; state.hours=4; state.booth=true; state.boothExtra=0; state.tax=0; $('#addSecondPhoto').checked=false; $('#addSecondVideo').checked=false; $('#addRush').checked=false; render();
+        let sub = +$('#subtotal').textContent.replace(/[$,]/g,'');
+        console.assert(sub===1875, 'Test1 failed: expected 1875, got '+sub);
 
-        // Test 3: Extra hour per service on bundle: 1 hr -> +175*2 = 350
-        state.type='bundle'; state.hours=8; state.booth=false; state.extraHours=1; state.tax=0;
-        render();
-        const sub3 = +$('#subtotal').textContent.replace(/[$,]/g,'');
-        console.assert(sub3===4700, 'Test3 failed: expected 4700, got '+sub3);
+        // Test 2: Bundle 8hr no booth: 4800 before tax
+        state.type='bundle'; state.hours=8; state.booth=false; state.tax=0; render();
+        sub = +$('#subtotal').textContent.replace(/[$,]/g,'');
+        console.assert(sub===4800, 'Test2 failed: expected 4800, got '+sub);
 
-        // Test 4: Tax 6.25% on $2025 should be $126.56 and total $2151.56
-        state.type='photo'; state.hours=4; state.booth=true; state.extraHours=0; state.tax=6.25;
-        render();
+        // Test 3: Booth extra hours 2 -> +$350 (175*2) on Photo 4hr with booth
+        state.type='photo'; state.hours=4; state.booth=true; state.boothExtra=2; state.tax=0; render();
+        sub = +$('#subtotal').textContent.replace(/[$,]/g,'');
+        console.assert(sub===2225, 'Test3 failed: expected 2225, got '+sub);
+
+        // Test 4: Tax 6.25% on $1875 should be $117.19 and total $1992.19
+        state.type='photo'; state.hours=4; state.booth=true; state.boothExtra=0; state.tax=6.25; render();
         const tax4 = +$('#taxAmt').textContent.replace(/[$,]/g,'');
         const total4 = +$('#total').textContent.replace(/[$,]/g,'');
-        console.assert(tax4===126.56, 'Test4 failed: expected tax 126.56, got '+tax4);
-        console.assert(total4===2151.56, 'Test4 failed: expected total 2151.56, got '+total4);
+        console.assert(tax4===117.19, 'Test4 failed: expected tax 117.19, got '+tax4);
+        console.assert(total4===1992.19, 'Test4 failed: expected total 1992.19, got '+total4);
 
-        // Test 5: Entering '8.25%' should sanitize to 8.25 and tax on $2025 = $167.06
-        const taxInput = document.querySelector('#tax');
-        taxInput.value = '8.25%';
-        taxInput.dispatchEvent(new Event('input'));
-        const tax5 = +$('#taxAmt').textContent.replace(/[$,]/g,'');
-        console.assert(tax5===167.06, 'Test5 failed: expected tax 167.06, got '+tax5);
+        // Test 5: Video only 12hr, no booth -> 3900 before tax
+        state.type='video'; state.hours=12; state.booth=false; state.boothExtra=0; state.tax=0; render();
+        sub = +$('#subtotal').textContent.replace(/[$,]/g,'');
+        console.assert(sub===3900, 'Test5 failed: expected 3900, got '+sub);
+
+        // Test 6: Bundle 12hr + booth 3hr + 1 extra booth hr => 7200 + 575 + 175 = 7950
+        state.type='bundle'; state.hours=12; state.booth=true; state.boothExtra=1; state.tax=0; render();
+        sub = +$('#subtotal').textContent.replace(/[$,]/g,'');
+        console.assert(sub===7950, 'Test6 failed: expected 7950, got '+sub);
+
+        // Restore intended defaults
+        Object.assign(state, snap);
+        $('#addSecondPhoto').checked = chk.sp;
+        $('#addSecondVideo').checked = chk.sv;
+        $('#addRush').checked = chk.r;
+        state.hours = 8; state.booth = false; state.boothExtra = 0; state.tax = 6.25; render();
 
         console.log('%cAll calculator smoke tests passed','color:green');
       }catch(err){ console.warn('Tests error', err); }
-    }catch(err){ console.warn('Tests error', err); }
     }
     runTests();
   </script>
 </body>
 </html>
+
