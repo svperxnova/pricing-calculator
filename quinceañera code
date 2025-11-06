@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Instant Quinceañera Quote — Photo • Video • Photo Booth</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#0e0f12;--muted:#7b8190;--line:#eef1f6;--bg:#ffffff;--accent:#111213;--soft:#f9fafc;--shadow:0 18px 50px rgba(16,17,19,.08)}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Manrope',ui-sans-serif,system-ui}
+    .wrap{max-width:1040px;margin:40px auto;padding:0 20px}
+    h1{font-weight:800;margin:0 0 10px;font-size:clamp(24px,3vw,36px)}
+    p.lead{margin:0 0 28px;color:var(--muted);font-weight:600}
+    .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow)}
+    .grid{display:grid;gap:18px}
+    @media(min-width:960px){.grid{grid-template-columns:1.15fr 1fr}}
+    label{display:block;font-size:11px;letter-spacing:.35px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .chips{display:flex;flex-wrap:wrap;gap:10px}
+    .chip{border:1px solid var(--line);padding:10px 14px;border-radius:999px;cursor:pointer;background:var(--soft);transition:.12s}
+    .chip:hover{transform:translateY(-1px)}
+    .chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+    .hr{height:1px;background:var(--line);margin:18px 0}
+    .list{display:grid;gap:8px}
+    .item{display:flex;justify-content:space-between}
+    .total-row{display:flex;justify-content:space-between;align-items:center}
+    .total{font-size:38px;font-weight:800}
+    .mini{font-size:12px;color:var(--muted)}
+    .flex{display:flex;flex-direction:column;gap:6px;padding-top:6px}
+    .pill{border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-size:12px;background:var(--soft);display:flex;align-items:center}
+    .select{width:100%;padding:10px;border:1px solid var(--line);border-radius:12px}
+    .marks{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:8px}
+    .slider{width:100%;height:8px;border-radius:999px;background:#f2f4fa}
+    .slider::-webkit-slider-thumb{appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--accent);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Instant Quinceañera Quote — Photo • Video • Photo Booth</h1>
+    <p class="lead">Use the tool below to customize your quinceañera coverage.</p>
+
+    <div class="card grid">
+      <div>
+        <div class="row">
+          <div>
+            <label>Service</label>
+            <div class="chips" id="service">
+              <div class="chip active" data-type="photo">Photography</div>
+              <div class="chip" data-type="video">Videography</div>
+              <div class="chip" data-type="bundle">Photo + Film Coverage</div>
+            </div>
+          </div>
+          <div>
+            <label>Coverage Hours</label>
+            <input id="hoursRange" type="range" class="slider"/>
+            <div class="marks" id="hourMarks"></div>
+            <div class="mini">Selected: <span id="hoursLabel">8 hours</span></div>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <label>Photo Booth</label>
+        <div class="chips" id="booth">
+          <div class="chip active" data-on="0">No Booth</div>
+          <div class="chip" data-on="1">Photo Booth (3 Hours) <span class="muted">(Most Popular)</span></div>
+        </div>
+        <div id="boothExtraWrap" style="margin-top:12px; display:none;">
+          <label>Additional Booth Time</label>
+          <select id="boothExtraSelect" class="select">
+            <option value="0">0 hours</option>
+            <option value="1">1 hour (+$175)</option>
+            <option value="2">2 hours (+$350)</option>
+          </select>
+          <div class="mini">Choose up to 2 additional hours at $175/hr.</div>
+        </div>
+
+        <div class="hr"></div>
+
+        <label>Add-ons</label>
+        <div class="flex">
+          <label class="pill"><input id="addSecondPhoto" type="checkbox"> Second Photographer (+$450)</label>
+          <label class="pill"><input id="addSecondVideo" type="checkbox"> Second Videographer (+$550)</label>
+          <label class="pill"><input id="addRush" type="checkbox"> Expedited Delivery (+$400)</label>
+        </div>
+        <div class="mini">Drone footage included with Photo + Film Coverage (where permitted).</div>
+      </div>
+
+      <div>
+        <label>Quinceañera Coverage Summary</label>
+        <div class="card" style="padding:14px">
+          <div id="items" class="list"></div>
+          <div class="hr"></div>
+          <div class="item"><span class="muted">Subtotal</span><span id="subtotal">$0</span></div>
+          <div class="item"><span class="muted">Tax (6.25%)</span><span id="taxAmt">$0</span></div>
+          <div class="total-row"><span class="muted">Estimated Investment</span><span id="total" class="total">$0</span></div>
+          <div class="mini" style="margin-top:4px">Illinois sales tax rate: 6.25% applied to all services and rentals.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const CFG = {
+  currency:'$',
+  hours:[4,6,8,10,12],
+  prices:{
+    photo:{4:1000,6:1500,8:2000,10:2500,12:3000},
+    video:{4:1000,6:1500,8:2000,10:2500,12:3000},
+    bundle:{4:1600,6:2400,8:3200,10:4000,12:4800}
+  },
+  extras:{booth3hr:575, boothExtraHr:175, secondPhoto:450, secondVideo:550, rush:400}
+};
+const state={type:'photo', hours:8, booth:false, boothExtra:0, tax:6.25};
+const $=s=>document.querySelector(s);
+const fmt=n=>CFG.currency+Number(n||0).toLocaleString();
+
+function initChips(id,fn){
+  $(id).addEventListener('click',e=>{
+    const c=e.target.closest('.chip'); if(!c)return;
+    [...$(id).children].forEach(x=>x.classList.remove('active'));
+    c.classList.add('active'); fn(c);
+  });
+}
+initChips('#service',c=>{state.type=c.dataset.type; render();});
+initChips('#booth',c=>{state.booth=c.dataset.on==='1'; render();});
+
+const hoursRange=$('#hoursRange'), hoursLabel=$('#hoursLabel'), boothExtraSelect=$('#boothExtraSelect');
+function initHours(){
+  hoursRange.min=0; hoursRange.max=CFG.hours.length-1;
+  hoursRange.value=CFG.hours.indexOf(8);
+  $('#hourMarks').innerHTML=CFG.hours.map((h,i)=>`<button data-i="${i}">${h}</button>`).join('');
+  $('#hourMarks').onclick=e=>{if(e.target.dataset.i){hoursRange.value=e.target.dataset.i;hoursRange.dispatchEvent(new Event('input'));}};
+}
+hoursRange.oninput=e=>{state.hours=CFG.hours[e.target.value]; hoursLabel.textContent=`${state.hours} hours`; render();};
+boothExtraSelect.onchange=e=>{state.boothExtra=+e.target.value; render();};
+
+function render(){
+  $('#boothExtraWrap').style.display = state.booth ? '' : 'none';
+  if(!state.booth){state.boothExtra=0; boothExtraSelect.value=0;}
+  const items=[];
+  const title = state.type==='bundle' ? 'Photo + Film Coverage' : state.type==='photo'?'Photography':'Videography';
+  items.push([`${title} — ${state.hours} hours`, CFG.prices[state.type][state.hours]]);
+  if(state.booth){
+    items.push(['Photo Booth (3 Hours)', CFG.extras.booth3hr]);
+    if(state.boothExtra>0) items.push([`Additional Booth Time — ${state.boothExtra} hr`, state.boothExtra*CFG.extras.boothExtraHr]);
+  }
+  if($('#addSecondPhoto').checked) items.push(['Second Photographer', CFG.extras.secondPhoto]);
+  if($('#addSecondVideo').checked) items.push(['Second Videographer', CFG.extras.secondVideo]);
+  if($('#addRush').checked) items.push(['Expedited Delivery (3 weeks)', CFG.extras.rush]);
+  const subtotal=items.reduce((a,[,n])=>a+n,0), tax=subtotal*(state.tax/100), total=subtotal+tax;
+  $('#items').innerHTML=items.map(([t,v])=>`<div class="item"><span>${t}</span><span>${fmt(v)}</span></div>`).join('');
+  $('#subtotal').textContent=fmt(subtotal); $('#taxAmt').textContent=fmt(tax.toFixed(2)); $('#total').textContent=fmt(total.toFixed(2));
+}
+
+initHours(); render();
+</script>
+
+</body>
+</html>
