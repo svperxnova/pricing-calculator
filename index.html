@@ -9,7 +9,7 @@
     :root{--ink:#0e0f12;--muted:#7b8190;--line:#eef1f6;--bg:#ffffff;--accent:#111213;--soft:#f9fafc;--shadow:0 18px 50px rgba(16,17,19,.08)}
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Manrope',ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
-    .wrap{max-width:1040px;margin:40px auto;padding:0 20px}
+    .wrap{max-width:1040px;margin:40px auto;padding:0 20px;position:relative}
     h1{font-weight:800;letter-spacing:.2px;margin:0 0 10px;font-size:clamp(24px,3.2vw,36px)}
     p.lead{margin:0 0 28px;color:var(--muted);font-weight:600;opacity:.9}
     .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow);backdrop-filter:saturate(160%) blur(2px)}
@@ -41,12 +41,21 @@
     .slider::-webkit-slider-thumb{appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--accent);box-shadow:0 2px 8px rgba(0,0,0,.12);cursor:pointer;transition:box-shadow .15s ease, transform .1s ease}
     .slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--accent);box-shadow:0 2px 8px rgba(0,0,0,.12);cursor:pointer;transition:box-shadow .15s ease, transform .1s ease}
     [hidden]{display:none !important}
-  </style>
+
+    /* Language toggle */
+    .lang{display:none !important;}
+    .lang button{background:none;border:none;color:var(--muted);font-weight:700;cursor:pointer;padding:6px 8px;border-radius:10px}
+    .lang button.on{color:var(--ink);background:var(--soft)}
+  .second-shooters{flex-direction:column;align-items:flex-start;padding-top:4px;gap:6px;}
+.pill{display:flex;align-items:center;}
+</style>
 </head>
 <body>
   <div class="wrap">
-    <h1>Instant Wedding Quote — Photo • Video • Photo Booth</h1>
-    <p class="lead">Use the tool below to receive an instant quote.</p>
+    
+
+    <h1 id="titleH1">Instant Wedding Quote — Photo • Video • Photo Booth</h1>
+    <p class="lead" id="leadP">Use the tool below to receive an instant quote.</p>
 
     <div class="card grid">
       <!-- LEFT: Controls -->
@@ -55,9 +64,9 @@
           <div>
             <label id="serviceLabel">Service</label>
             <div class="chips" id="service" role="tablist" aria-labelledby="serviceLabel">
-              <div class="chip active" data-type="photo" role="button" tabindex="0" aria-pressed="true" id="chipPhoto">Photo Only</div>
-              <div class="chip" data-type="video" role="button" tabindex="0" aria-pressed="false" id="chipVideo">Video Only</div>
-              <div class="chip" data-type="bundle" role="button" tabindex="0" aria-pressed="false" id="chipBundle">Photo + Video</div>
+              <div class="chip active" data-type="photo" role="button" tabindex="0" aria-pressed="true" id="chipPhoto">Photography</div>
+              <div class="chip" data-type="video" role="button" tabindex="0" aria-pressed="false" id="chipVideo">Videography</div>
+              <div class="chip" data-type="bundle" role="button" tabindex="0" aria-pressed="false" id="chipBundle">Photography + Videography</div>
             </div>
           </div>
           <div>
@@ -74,24 +83,24 @@
           <label id="boothLabel">Photo Booth</label>
           <div class="chips" id="booth" role="group" aria-labelledby="boothLabel">
             <div class="chip active" data-on="0" id="chipNoBooth">No Booth</div>
-            <div class="chip" data-on="1" id="chipBooth">Photo Booth — 3 hrs <span class="muted">(Most Popular)</span></div>
+            <div class="chip" data-on="1" id="chipBooth">Photo Booth (3 Hours) <span class="muted">(Most Popular)</span></div>
           </div>
           <div id="boothExtraWrap" style="margin-top:12px; display:none;">
-            <label for="boothExtraSelect" id="boothExtraHead">Extra Booth Hours</label>
+            <label for="boothExtraSelect" id="boothExtraHead">Additional Booth Time</label>
             <select id="boothExtraSelect" class="select" aria-label="Extra booth hours">
               <option value="0">0 hours</option>
               <option value="1">1 hour (+$175)</option>
               <option value="2">2 hours (+$350)</option>
             </select>
-            <div class="mini" id="boothExtraNote">Choose up to 2 extra hours at $175/hr.</div>
+            <div class="mini" id="boothExtraNote">Choose up to 2 additional hours at $175/hr.</div>
           </div>
         </div>
 
         <div class="hr"></div>
 
         <div>
-          <label id="addonsHead">Add-ons</label>
-          <div class="flex">
+          <label id="addonsHead">Add‑ons</label>
+          <div class="flex second-shooters">
             <label class="pill" id="pillSecondPhoto"><input id="addSecondPhoto" type="checkbox" /> <span id="txtSecondPhoto">Second Photographer (+$450)</span></label>
             <label class="pill" id="pillSecondVideo"><input id="addSecondVideo" type="checkbox" /> <span id="txtSecondVideo">Second Videographer (+$550)</span></label>
             <label class="pill"><input id="addRush" type="checkbox" /> <span id="txtRush">Expedited Delivery (+$400)</span></label>
@@ -120,11 +129,9 @@
   </div>
 
   <script>
-    // --- CONFIG ---
     const CFG = {
       currency: '$',
       hours: [4,6,8,10,12],
-      // Photo Only: $325/hr | Video Only: $325/hr | Bundle (Photo+Video): $300/hr PER SERVICE
       prices: {
         photo:  {4:1300,6:1950,8:2600,10:3250,12:3900},
         video:  {4:1300,6:1950,8:2600,10:3250,12:3900},
@@ -139,227 +146,106 @@
       }
     };
 
-    // --- STATE ---
     const state = {
       type: 'photo',
       hours: 8,
       booth: false,
       boothExtra: 0,
-      tax: 6.25, // fixed 6.25%
-      addSecondPhoto: false,
-      addSecondVideo: false,
-      addRush: false
+      tax: 6.25
     };
 
-    // --- Helpers ---
     const $ = sel => document.querySelector(sel);
-    const fmt = n => CFG.currency + Number(n||0).toLocaleString(undefined,{minimumFractionDigits:0, maximumFractionDigits:2});
+    const fmt = n => CFG.currency + Number(n||0).toLocaleString();
 
-    // Accessible chip groups
     function initChips(containerSel, onChoose){
       const el = $(containerSel);
       el.addEventListener('click', e=>{
-        const chip = e.target.closest('.chip'); if(!chip || !el.contains(chip)) return;
-        [...el.children].forEach(c=>{c.classList.remove('active'); c.setAttribute('aria-pressed','false');});
-        chip.classList.add('active'); chip.setAttribute('aria-pressed','true');
+        const chip = e.target.closest('.chip'); if(!chip) return;
+        [...el.children].forEach(c=>c.classList.remove('active'));
+        chip.classList.add('active');
         onChoose(chip);
-      });
-      el.addEventListener('keydown', e=>{
-        if(e.key==='Enter' || e.key===' '){
-          const chip = e.target.closest('.chip'); if(!chip || !el.contains(chip)) return;
-          e.preventDefault(); chip.click();
-        }
       });
     }
 
-    // Service chips
     initChips('#service', chip=>{ state.type = chip.dataset.type; adjustAddOnVisibility(); render(); });
-    // Booth chips
     initChips('#booth', chip=>{ state.booth = chip.dataset.on==='1'; render(); });
 
-    // Sliders & selects
     const hoursRange = $('#hoursRange');
     const hoursLabel = $('#hoursLabel');
-    const hourMarks = $('#hourMarks');
     const boothExtraSelect = $('#boothExtraSelect');
 
     function initHours(){
-      hoursRange.min = 0; hoursRange.max = CFG.hours.length-1; hoursRange.step = 1;
-      const idx = Math.max(0, CFG.hours.indexOf(state.hours)); hoursRange.value = idx;
-      hourMarks.innerHTML = CFG.hours.map((h,i)=>`<button type="button" data-i="${i}" aria-label="Set ${h} hours">${h}</button>`).join('');
-      hoursLabel.textContent = `${state.hours} hours`;
-      hourMarks.addEventListener('click', e=>{
-        const btn = e.target.closest('button[data-i]'); if(!btn) return;
-        const i = Number(btn.dataset.i)||0; hoursRange.value = i; hoursRange.dispatchEvent(new Event('input',{bubbles:true}));
+      hoursRange.min = 0; hoursRange.max = CFG.hours.length-1;
+      const idx = CFG.hours.indexOf(state.hours);
+      hoursRange.value = idx;
+      $('#hourMarks').innerHTML = CFG.hours.map((h,i)=>`<button data-i="${i}">${h}</button>`).join('');
+      $('#hourMarks').addEventListener('click', e=>{
+        const i = e.target.dataset.i; if(i==null) return;
+        hoursRange.value = i; hoursRange.dispatchEvent(new Event('input',{bubbles:true}));
       });
     }
 
     hoursRange.addEventListener('input', e => {
       const idx = Number(e.target.value)||0;
-      state.hours = CFG.hours[idx]||CFG.hours[0];
+      state.hours = CFG.hours[idx];
       hoursLabel.textContent = `${state.hours} hours`;
       render();
     });
 
-    boothExtraSelect && boothExtraSelect.addEventListener('change', e=>{
-      state.boothExtra = Math.max(0, Math.min(2, Number(e.target.value||0)));
+    boothExtraSelect.addEventListener('change', e=>{
+      state.boothExtra = Number(e.target.value)||0;
       render();
     });
 
-    // Show/hide second shooter options based on service
-    function adjustAddOnVisibility(){
-      const showSecondPhoto = (state.type==='photo' || state.type==='bundle');
-      const showSecondVideo = (state.type==='video' || state.type==='bundle');
-      $('#pillSecondPhoto').hidden = !showSecondPhoto;
-      $('#pillSecondVideo').hidden = !showSecondVideo;
-      if(!showSecondPhoto) { $('#addSecondPhoto').checked = false; }
-      if(!showSecondVideo) { $('#addSecondVideo').checked = false; }
-    }
+    function adjustAddOnVisibility() { /* always show both second shooter options */ }
 
-    // Add-ons
-    $('#addSecondPhoto').addEventListener('change', ()=> render());
-    $('#addSecondVideo').addEventListener('change', ()=> render());
-    $('#addRush').addEventListener('change', ()=> render());
+    $('#addSecondPhoto').addEventListener('change', render);
+    $('#addSecondVideo').addEventListener('change', render);
+    $('#addRush').addEventListener('change', render);
 
     function render(){
-      // Toggle booth extra visibility (single declaration)
-      const wrap = document.querySelector('#boothExtraWrap');
-      if (wrap){
-        wrap.style.display = state.booth ? '' : 'none';
-        if(!state.booth){ state.boothExtra = 0; if(boothExtraSelect){ boothExtraSelect.value = '0'; } }
-      }
+      const wrap = $('#boothExtraWrap');
+      wrap.style.display = state.booth ? '' : 'none';
+      if(!state.booth){ state.boothExtra = 0; boothExtraSelect.value='0'; }
 
       const items = [];
-      // Base
-      const serviceTitle = state.type==='bundle' ? 'Photo + Video' : (state.type==='photo'?'Photo':'Video');
-      const base = CFG.prices[state.type][state.hours];
-      items.push([`${serviceTitle} — ${state.hours} hours`, base]);
+      const serviceTitle = state.type==='bundle' ? 'Photography + Videography' : (state.type==='photo'?'Photo':'Video');
+      items.push([`${serviceTitle} — ${state.hours} hours`, CFG.prices[state.type][state.hours]]);
 
-      // Booth
       if(state.booth){
-        items.push([`Photo Booth — 3 hrs`, CFG.extras.booth3hr]);
+        items.push(['Photo Booth (3 Hours)', CFG.extras.booth3hr]);
         if(state.boothExtra>0) items.push([`Photo Booth extra — ${state.boothExtra} hr`, state.boothExtra*CFG.extras.boothExtraHr]);
       }
 
-      // Second shooters
-      if($('#addSecondPhoto').checked && (state.type==='photo' || state.type==='bundle')){
+      if($('#addSecondPhoto').checked && (state.type==='photo' || state.type==='bundle'))
         items.push(['Second Photographer', CFG.extras.secondPhoto]);
-      }
-      if($('#addSecondVideo').checked && (state.type==='video' || state.type==='bundle')){
+      if($('#addSecondVideo').checked && (state.type==='video' || state.type==='bundle'))
         items.push(['Second Videographer', CFG.extras.secondVideo]);
-      }
+      if($('#addRush').checked) items.push(['Expedited Delivery (3 weeks)', CFG.extras.rush]);
 
-      // Rush
-      if($('#addRush').checked){ items.push(['Expedited Delivery (3 weeks)', CFG.extras.rush]); }
-
-      // Subtotal / Tax / Total
-      const subtotal = items.reduce((a,[,v])=> a + (Number(v)||0), 0);
+      const subtotal = items.reduce((a,[,v])=>a+v,0);
       const taxAmt = +(subtotal * (state.tax/100)).toFixed(2);
-      const total = +(subtotal + taxAmt).toFixed(2);
+      const total = subtotal + taxAmt;
 
-      // UI
-      $('#items').innerHTML = items.map(([tX,v,tag])=>`<div class="item"><span>${tX}${tag?` <span class=\"muted\">(${tag})</span>`:''}</span><span>${fmt(v)}</span></div>`).join('');
+      $('#items').innerHTML = items.map(([t,v])=>`<div class="item"><span>${t}</span><span>${fmt(v)}</span></div>`).join('');
       $('#subtotal').textContent = fmt(subtotal);
       $('#taxAmt').textContent = fmt(taxAmt);
       $('#total').textContent = fmt(total);
     }
 
-    // Copy helpers
-    function quoteText(){
-      const parts = [];
-      const serviceTitle = state.type==='bundle' ? 'Photo + Video' : (state.type==='photo'?'Photo':'Video');
-      parts.push(`Estimate`);
-      parts.push(`${serviceTitle} — ${state.hours} hours`);
-      if(state.booth){ parts.push(`Photo Booth: 3 hrs${state.boothExtra>0?` + ${state.boothExtra} extra hr`:''}`); }
-      if($('#addSecondPhoto').checked && (state.type==='photo' || state.type==='bundle')) parts.push('Second Photographer');
-      if($('#addSecondVideo').checked && (state.type==='video' || state.type==='bundle')) parts.push('Second Videographer');
-      if($('#addRush').checked) parts.push('Expedited Delivery (3 weeks)');
-      const subtotal = $('#subtotal').textContent; const taxAmt = $('#taxAmt').textContent; const total = $('#total').textContent;
-      const droneNote = (state.type!=='photo')? 'Drone footage included (where permitted).\n' : '';
-      const taxLine = 'Tax (6.25%): ' + taxAmt;
-      return `${parts.join('\n')}\nSubtotal: ${subtotal}\n${taxLine}\nTotal: ${total}\n\n${droneNote}`;
-    }
-
-    $('#copyQuote').addEventListener('click', async()=>{
-      try{ await navigator.clipboard.writeText(quoteText()); const b=$('#copyQuote'); const t=b.textContent; b.textContent='Copied!'; setTimeout(()=>b.textContent=t,1200);}catch(e){ alert('Copy failed'); }
-    });
-
-    $('#copyEmbed').addEventListener('click', async()=>{
-      const iframe = '<iframe src="YOUR_HOSTED_URL_HERE" style="width:100%;height:900px;border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allow="clipboard-write"></iframe>';
-      try{ await navigator.clipboard.writeText(iframe); const b=$('#copyEmbed'); const t=b.textContent; b.textContent='iFrame Copied!'; setTimeout(()=>b.textContent=t,1200);}catch(e){ alert('Copy failed'); }
-    });
-
-    // ---- Boot ----
     function boot(){
-      const r = document.querySelector('#hoursRange');
       const idx8 = CFG.hours.indexOf(8);
-      if (r && idx8 >= 0) { r.value = idx8; }
+      hoursRange.value = idx8;
       state.hours = 8;
       state.booth = false;
       state.boothExtra = 0;
       state.tax = 6.25;
-      const wrap = document.querySelector('#boothExtraWrap');
-      if (wrap) wrap.style.display = 'none';
+      $('#boothExtraWrap').style.display='none';
       initHours();
       adjustAddOnVisibility();
       render();
     }
     boot();
-
-    // --- Console smoke tests ---
-    function runTests(){
-      try{
-        const snap = { ...state };
-        const chk = {
-          sp: $('#addSecondPhoto').checked,
-          sv: $('#addSecondVideo').checked,
-          r:  $('#addRush').checked,
-        };
-
-        // Test 1: Photo 4hr + booth should equal 1300 + 575 before tax = 1875
-        state.type='photo'; state.hours=4; state.booth=true; state.boothExtra=0; state.tax=0; $('#addSecondPhoto').checked=false; $('#addSecondVideo').checked=false; $('#addRush').checked=false; render();
-        let sub = +$('#subtotal').textContent.replace(/[$,]/g,'');
-        console.assert(sub===1875, 'Test1 failed: expected 1875, got '+sub);
-
-        // Test 2: Bundle 8hr no booth: 4800 before tax
-        state.type='bundle'; state.hours=8; state.booth=false; state.tax=0; render();
-        sub = +$('#subtotal').textContent.replace(/[$,]/g,'');
-        console.assert(sub===4800, 'Test2 failed: expected 4800, got '+sub);
-
-        // Test 3: Booth extra hours 2 -> +$350 (175*2) on Photo 4hr with booth
-        state.type='photo'; state.hours=4; state.booth=true; state.boothExtra=2; state.tax=0; render();
-        sub = +$('#subtotal').textContent.replace(/[$,]/g,'');
-        console.assert(sub===2225, 'Test3 failed: expected 2225, got '+sub);
-
-        // Test 4: Tax 6.25% on $1875 should be $117.19 and total $1992.19
-        state.type='photo'; state.hours=4; state.booth=true; state.boothExtra=0; state.tax=6.25; render();
-        const tax4 = +$('#taxAmt').textContent.replace(/[$,]/g,'');
-        const total4 = +$('#total').textContent.replace(/[$,]/g,'');
-        console.assert(tax4===117.19, 'Test4 failed: expected tax 117.19, got '+tax4);
-        console.assert(total4===1992.19, 'Test4 failed: expected total 1992.19, got '+total4);
-
-        // Test 5: Video only 12hr, no booth -> 3900 before tax
-        state.type='video'; state.hours=12; state.booth=false; state.boothExtra=0; state.tax=0; render();
-        sub = +$('#subtotal').textContent.replace(/[$,]/g,'');
-        console.assert(sub===3900, 'Test5 failed: expected 3900, got '+sub);
-
-        // Test 6: Bundle 12hr + booth 3hr + 1 extra booth hr => 7200 + 575 + 175 = 7950
-        state.type='bundle'; state.hours=12; state.booth=true; state.boothExtra=1; state.tax=0; render();
-        sub = +$('#subtotal').textContent.replace(/[$,]/g,'');
-        console.assert(sub===7950, 'Test6 failed: expected 7950, got '+sub);
-
-        // Restore intended defaults
-        Object.assign(state, snap);
-        $('#addSecondPhoto').checked = chk.sp;
-        $('#addSecondVideo').checked = chk.sv;
-        $('#addRush').checked = chk.r;
-        state.hours = 8; state.booth = false; state.boothExtra = 0; state.tax = 6.25; render();
-
-        console.log('%cAll calculator smoke tests passed','color:green');
-      }catch(err){ console.warn('Tests error', err); }
-    }
-    runTests();
   </script>
 </body>
 </html>
-
